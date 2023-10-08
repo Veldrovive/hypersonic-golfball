@@ -32,6 +32,19 @@ Model failures:
 1. The optimal angle near 0 does not in fact become large. It actually stays at 45 degrees. This is not well captured by our model which is convex everywhere (in our domain).
 2. The sum of squared residuals increases as our range of velocities does. This is indicative of the fact that our model does not actually capture the true underlying generating equation which is a non-elementary function.
 
-Anyways, this was fun. Hope you got what you needed. Oh, here's full trajectories for very hypersonic golf balls. They don't even get very high. I guess that's what happens when you have a force proportional to the squared velocity opposing you.
+![Test 8: Initial Velocity vs Max Height (10m/s to 10000m/s)](/output/test_8.png)
+As we can see, the height achieved by golf balls hit at hypersonic speeds still is not that high. This is due to the low mass mixed with the very high resistance at large speeds.
 
-![Test 6: Launch Trajectories - Large range (100m/s to 10000m/s)](/output/test_7.png)
+![Test 9: Trajectories with very high mass (100m/s to 10000m/s)](/output/test_9.png)
+If we make this ball out of a much... much heavier material. We can see it is not nearly as effected by the atmospheric drag. In fact, it's getting close to escaping the atmosphere entirely which means that our assumption of constant atmospheric density is messing everything up.
+
+Anyways, this was fun. Hope you got what you needed. Oh, here's full trajectories for very hypersonic golf balls.
+
+![Test 7: Launch Trajectories - Large range (100m/s to 10000m/s)](/output/test_7.png)
+
+TODO:
+- [ ] Implement varying atmospheric density due to height
+- [ ] Implement Magnus force and expand simulation to 6DOF
+- [ ] Implement drag correlations with Re number
+
+Will I ever do these things? Maybe. Seems like fun.

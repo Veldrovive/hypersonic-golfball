@@ -200,6 +200,41 @@ def plot_optimal_angle_vs_velocity(min_v, max_v, num_points, dt, g=g, m=m, A=A, 
 
     return fig
 
+def plot_max_height_vs_velocity(min_v, max_v, num_points, dt, g=g, m=m, A=A, Cd=Cd, tol=0.1):
+    """
+    Plot maximum height reached for a range of initial velocities.
+
+    Parameters:
+        min_v: minimum initial velocity (m/s)
+        max_v: maximum initial velocity (m/s)
+        num_points: number of points in the velocity linspace
+        dt: time step (s)
+        g, m, A, Cd: constants for the equations of motion
+        tol: tolerance for the search (default 0.1)
+
+    Returns:
+        fig: Matplotlib figure
+    """
+    # Generate data
+    velocities, optimal_angles = generate_optimal_angle_data(min_v, max_v, num_points, dt, g, m, A, Cd, tol)
+
+    # Compute the maximum height for each velocity
+    max_heights = []
+    for v0, angle in zip(velocities, optimal_angles):
+        traj_optimal = compute_trajectory(v0, angle, dt, g, m, A, Cd)
+        max_height = max(traj_optimal[:, 1])
+        max_heights.append(max_height)
+
+    # Plot the maximum heights
+    fig, ax = plt.subplots(figsize=(12, 6))
+    ax.scatter(velocities, max_heights, marker='o')
+    ax.set_xlabel('Initial Velocity (m/s)')
+    ax.set_ylabel('Maximum Height (m)')
+    ax.set_title('Maximum Height vs Initial Velocity')
+    ax.grid(True)
+
+    return fig
+
 if __name__ == "__main__":
     from pathlib import Path
     output_dir = Path(__file__).parent / "output"
@@ -259,3 +294,20 @@ if __name__ == "__main__":
     num_points = 5
     fig = plot_optimized_trajectories(min_v, max_v, num_points, dt=0.001, tol=0.1)
     fig.savefig(output_dir / "test_7.png")
+
+    # Test 8: Plot of the max height reached for a hypersonic projectile
+    print("Test 8: Plot of the max height reached for a hypersonic projectile")
+    min_v = 10
+    max_v = 10000
+    num_points = 50
+    fig = plot_max_height_vs_velocity(min_v, max_v, num_points, dt=0.005, tol=0.1)
+    fig.savefig(output_dir / "test_8.png")
+
+    # Test 9: High mass projectile
+    print("Test 9: High mass projectile")
+    # Same as test 7 but with a high mass projectile
+    min_v = 100.0
+    max_v = 10000.0
+    num_points = 5
+    fig = plot_optimized_trajectories(min_v, max_v, num_points, dt=0.001, tol=0.1, m=100)
+    fig.savefig(output_dir / "test_9.png")
